@@ -76,7 +76,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndUpdate(request.params.id)
         .then(person => {
             if (person)
-                response.json({ number: request.body.number })
+                response.json({ number: request.body.number, name: request.body.name })
         })
         .catch(error => next(error))
 })
