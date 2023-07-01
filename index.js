@@ -72,15 +72,13 @@ app.delete('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-
-
-app.put('/api/persons/:id', async (request, response, next) => {
-    const pers = await Person.findByIdAndUpdate(request.params.id, { number: request.body.number }, { new: true })
-    if (pers === undefined)
-        response.send({ error: "query not resolved" })
-    else
-        next()
-    response.json(pers)
+app.put('/api/persons/:id', (request, response, next) => {
+    Person.findByIdAndUpdate(request.params.id)
+        .then(person => {
+            if (person)
+                response.json({ number: request.body.number })
+        })
+        .catch(error => next(error))
 })
 
 app.use(errorHandler)
